@@ -1,0 +1,36 @@
+version: '3.3'
+services:
+  boatsale-db:
+    image: postgis/postgis:latest
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - boatsale-nt
+    ports:
+      - '5466:5432'
+
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+      - ./.m2:/root/.m2
+    working_dir: /app
+    command: sh run.sh
+    networks:
+      - boatsale-nt
+    depends_on:
+      - boatsale-db
+    ports:
+      - 9000:9000
+      - 35729:35729
+      - 5005:5005
+
+networks:
+  boatsale-nt:
+    driver: bridge

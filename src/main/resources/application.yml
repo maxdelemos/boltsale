@@ -1,0 +1,22 @@
+server:
+  servlet:
+    contextPath: /api
+  port: 9000
+
+spring:
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+  datasource:
+    url: jdbc:postgresql://boatsale-db:5432/boatsale
+    username: admin
+    password: admin
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
